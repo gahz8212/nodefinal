@@ -18,12 +18,14 @@
   height: 32px;
   line-height: 32px;
   vertical-align: top;
+  cursor: pointer;
 }
 .btn:hover {
   background-color: silver;
   color: white;
   transition: 0.5s;
 }
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -61,11 +63,20 @@ select {
 }
 #input-form .input-group label {
   margin-right: 10px;
+  /* background: yellow; */
+}
+#input-form .input-group label.btn {
+  background-color: yellowgreen;
+  text-align: center;
+  width: 50px;
 }
 .input-group #itemcate {
   width: 120px;
 }
-
+#preview {
+  display: flex;
+  justify-content: space-evenly;
+}
 .input-radio {
   border: 1px solid silver;
   margin-right: 20px;

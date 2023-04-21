@@ -47,8 +47,8 @@
             <div class="input-group">
               <label for="itemname">품명</label
               ><input type="text" name="itemname" id="itemname" required />
-              <label for="file" class="btn">사진</label
-              ><input
+              <label for="file" class="btn">사진</label>
+              <input
                 type="file"
                 name="image"
                 id="file"
@@ -103,6 +103,7 @@
                 id="itemdescription"
               ></textarea>
             </div>
+            <div id="preview"></div>
             <div class="buttons">
               <div class="input-radio">
                 <label for="use">사용중</label
@@ -151,13 +152,26 @@
     if (document.getElementById("file")) {
       document.getElementById("file").addEventListener("change", function () {
         // console.log(this.files);
+        const picCount = document.getElementById("preview").children.length;
         const formData = new FormData();
-        for (i = 0; i < this.files.length; i++) {
+        for (
+          i = this.files.length;
+          i >= this.files.length + picCount - 3;
+          i--
+        ) {
           formData.append("images", this.files[i]);
         }
         axios
           .post("/post/image", formData)
-          .then((res) => console.log(res.data))
+          .then((res) => {
+            const images = document.getElementById("preview");
+            res.data.map((image) => {
+              const img = document.createElement("img");
+              img.style.width = "100px";
+              img.src = image.url;
+              images.append(img);
+            });
+          })
           .catch((e) => {
             console.error(e);
           });
