@@ -9,6 +9,7 @@ const nunjucks = require("nunjucks");
 const path = require("path");
 const indexRouter = require("./routes");
 const authRouter = require("./routes/auth");
+const postRouter = require("./routes/post");
 const app = express();
 passportConfig();
 sequelize
@@ -39,6 +40,7 @@ app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method}${req.url} 라우터가 없습니다.`);
