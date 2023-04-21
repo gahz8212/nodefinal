@@ -1,0 +1,75 @@
+{% extends 'layout.html'%}
+{% block content%}
+<div class="timeline">
+
+  <div class="select-group">
+    <div class="selections">
+      <div class="select-group">
+        <label for="office">사무실</label><input type="checkbox" name="departs" id="office" value="office"
+          checked="checked">
+      </div>
+      <div class="select-group">
+        <label for="develop">개발실</label><input type="checkbox" name="departs" id="develop" value="develop">
+      </div>
+      <div class="select-group">
+        <label for="manufact">생산실</label><input type="checkbox" name="departs" id="manufact" value="manufact">
+      </div>
+      <div class="select-group">
+        <label for="package">포장실</label><input type="checkbox" name="departs" id="package" value="package">
+      </div>
+    </div>
+  </div>
+
+  <form action="" method="get" id="search-form">
+    <input type="text" name="search" id="search" placeholder="검색어를 입력 하세요">
+    <input type="submit" value="검색" class="btn">
+  </form>
+
+
+
+
+  <div class="list-window">
+    <div class="list-item">
+      <div class="itemname">이름</div>
+      <textarea name="description" id="description" maxlength="140" placeholder="제품 설명이 입력됩니다." readonly></textarea>
+      <div class="images">
+
+        <div class="image">
+          <img src="http://via.placeholder.com/100x100" alt="이미지1">
+        </div>
+        <div class="image">
+          <img src="http://via.placeholder.com/100x100" alt="이미지2">
+        </div>
+        <div class="image">
+          <img src="http://via.placeholder.com/100x100" alt="이미지3">
+        </div>
+        <!-- <div class="image">
+          <img src="http://via.placeholder.com/100x100" alt="이미지4">
+        </div>
+        <div class="image">
+          <img src="http://via.placeholder.com/100x100" alt="이미지5">
+        </div> -->
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="itemname">이름</div>
+      <textarea name="description" id="description" maxlength="140" placeholder="제품 설명이 입력됩니다." readonly></textarea>
+      <div class="images">
+        <img src="http://via.placeholder.com/100x100" alt="이미지1">
+        <img src="http://via.placeholder.com/100x100" alt="이미지2">
+        <img src="http://via.placeholder.com/100x100" alt="이미지3">
+      </div>
+    </div>
+    <!--  <div class="list-item">
+      <div class="name">이름</div>
+      <textarea name="description" id="description" maxlength="140" placeholder="제품 설명이 입력됩니다." readonly></textarea>
+      <div class="images">
+        <img src="http://via.placeholder.com/100x100" alt="이미지1">
+        <img src="http://via.placeholder.com/100x100" alt="이미지2">
+        <img src="http://via.placeholder.com/100x100" alt="이미지3">
+      </div>
+    </div> -->
+
+  </div>
+</div>
+{% endblock%}

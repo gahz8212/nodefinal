@@ -1,0 +1,183 @@
+* {
+  box-sizing: border-box;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 0 5px;
+  background-color: white;
+  border: 1px solid silver;
+  border-radius: 4px;
+  color: crimson;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: top;
+}
+.btn:hover {
+  background-color: silver;
+  color: white;
+  transition: 0.5s;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  border-style: silver;
+  border-radius: 4px;
+  height: 32px;
+  line-height: 32px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.container {
+  width: 100%;
+  height: 100%;
+}
+@media screen and (min-width: 1000px) {
+  .container {
+    width: 1000px;
+    margin: 0 auto;
+  }
+}
+.manage {
+  margin-top: 2rem;
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+}
+.manage .login .username {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+#input-form .input-group {
+  width: 100%;
+}
+#input-form .input-group label {
+  margin-right: 10px;
+}
+.input-group #itemcate {
+  width: 120px;
+}
+
+.input-radio {
+  border: 1px solid silver;
+  margin-right: 20px;
+  padding: 5px 10px;
+}
+.input-radio input {
+  color: red;
+  width: 40px;
+  margin-left: -10px;
+  display: inline-block;
+}
+.login {
+  width: 50%;
+  padding: 10px;
+}
+#login-form {
+  width: 300px;
+  background-color: yellow;
+}
+label {
+  display: inline-block;
+  font-weight: 700;
+}
+#login-form label {
+  display: inline-block;
+  width: 25%;
+  margin-left: 20px;
+  vertical-align: top;
+  height: 32px;
+  line-height: 32px;
+}
+#login-form label input {
+  width: 70%;
+}
+@media screen and (min-width: 1000px) {
+  .manage {
+    width: 380px;
+  }
+}
+.inputitem {
+  padding: 10px;
+  background-color: lightblue;
+  margin-top: 2rem;
+}
+.inputitem .input-group > label {
+  width: 15%;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: top;
+}
+
+.selections {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#itemdescription {
+  width: 100%;
+}
+textarea {
+  resize: none;
+  width: 100%;
+  height: 72px;
+  margin-bottom: 10px;
+}
+.timeline {
+  /* margin-top: 4rem; */
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+  /* background-color: lightyellow; */
+  padding: 10px;
+}
+@media screen and (min-width: 1000px) {
+  .timeline {
+    width: 590px;
+    margin: 0 auto;
+  }
+}
+#search-form {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.list-window {
+  /* background-color: lightgreen; */
+  width: 100%;
+  height: 650px;
+  overflow: auto;
+}
+.list-window .list-item {
+  width: 100%;
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid silver;
+  min-height: 62px;
+
+  border-radius: 4px;
+}
+.list-window .list-item:nth-child(2n + 1) {
+  background-color: aliceblue;
+}
+.list-window .list-item .itemname {
+  margin-bottom: 10px;
+}
+.list-window .list-item .images {
+  display: flex;
+  justify-content: space-evenly;
+}
+.list-window .list-item .images img {
+  display: inline-block;
+  max-width: 120px;
+}

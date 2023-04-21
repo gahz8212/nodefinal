@@ -5,28 +5,87 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/final.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <title>Document</title>
 </head>
 
 <body>
-  {% if user and user.id %}
-  <div class="username">안녕하세요 {{user.nick}}님!</div>
-  <a href="/auth/logout" class="btn">로그아웃</a>
-  {% else%}
-  <form action="/auth/login" method="post" id="login-form">
+  <div class="container">
+    <div class="manage">
+      {% if user and user.id %}
+      <div class="login">
+        <div class="username">안녕하세요 {{user.nick}}님!</div>
+        <div class="buttons">
+          <a href="/auth/logout" class="btn">로그아웃</a>
+        </div>
+      </div>
 
-    <div class="input-group">
-      <label for="email">이메일</label><input type="email" name="email" id="email">
+
+      <div class="inputitem">
+        <form action="/" method="get" id="input-form">
+          <div class="input-group">
+            <label for="itemcate">분류</label><input type="text" name="itemcate" id="itemcate" required autofocus>
+            <label for="itemcate">사용자</label>
+
+            <select name="employee">
+              <option value="">직원 선택</option>
+              <option value="김직원">김 직원</option>
+              <option value="이직원">이 직원</option>
+              <option value="박직원">박 직원</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="itemname">품명</label><input type="text" name="itemname" id="itemname" required>
+          </div>
+          <div class="selections">
+            <div class="select-group">
+              <label for="office">사무실</label><input type="checkbox" name="departs" id="office" value="office"
+                checked="checked">
+            </div>
+            <div class="select-group">
+              <label for="develop">개발실</label><input type="checkbox" name="departs" id="develop" value="develop">
+            </div>
+            <div class="select-group">
+              <label for="manufact">생산실</label><input type="checkbox" name="departs" id="manufact" value="manufact">
+            </div>
+            <div class="select-group">
+              <label for="package">포장실</label><input type="checkbox" name="departs" id="package" value="package">
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="itemdescription">설명</label><textarea type="text" name="itemdescription"
+              id="itemdescription"></textarea>
+          </div>
+          <div class="buttons">
+            <div class="input-radio">
+              <label for="use">사용중</label><input type="radio" name="use" id="use" checked="checked" value=true>
+              <label for="not-use">미 사용중</label><input type="radio" name="use" id="not-use" value=false>
+            </div>
+            <input type="submit" value="등록" class="btn">
+          </div>
+        </form>
+      </div>
+      {% else%}
+      <form action="/auth/login" method="post" id="login-form">
+
+        <div class="input-group">
+          <label for="email">이메일</label><input type="email" name="email" id="email" required autofocus>
+        </div>
+        <div class="input-group">
+          <label for="password">비밀번호</label><input type="password" name="password" id="password" required>
+        </div>
+        <div class="buttons">
+          <input type="submit" value="로그인" class="btn">
+          <a href="/join" class="btn">회원가입</a>
+        </div>
+      </form>
+      {% endif%}
     </div>
-    <div class="input-group">
-      <label for="password">비밀번호</label><input type="password" name="password" id="password">
-    </div>
-    <input type="submit" value="로그인" class="btn">
-    <a href="/join" class="btn">회원가입</a>
-  </form>
-  {% endif%}
-  {% block content%}
-  {% endblock%}
+    {% block content%}
+    {% endblock%}
+  </div>
 </body>
 <script>
   window.onload = () => {

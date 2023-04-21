@@ -5,7 +5,7 @@ router.use((req, res, next) => {
   next();
 });
 router.get("/", (req, res) => {
-  return res.render("layout");
+  return res.render("main");
 });
 router.get("/join", (req, res) => {
   return res.render("join");

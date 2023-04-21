@@ -1,17 +1,19 @@
 {% extends 'layout.html'%}
 {% block content%}
-<form action="/auth/join" method="post" id="join-form">
-  <div class="input-group">
-    <label for="nick-join">닉네임</label><input type="text" name="nick" id="nick-join">
-  </div>
-  <div class="input-group">
-    <label for="email-join">이메일</label><input type="email" name="email" id="email-join">
-  </div>
-  <div class="input-group">
-    <label for="password-join">비밀번호</label><input type="password" name="password" id="password-join">
-  </div>
-  <input type="submit" value="회원가입" class="btn">
-</form>
+<div class="timeline">
+  <form action="/auth/join" method="post" id="join-form">
+    <div class="input-group">
+      <label for="nick-join">닉네임</label><input type="text" name="nick" id="nick-join" required autofocus>
+    </div>
+    <div class="input-group">
+      <label for="email-join">이메일</label><input type="email" name="email" id="email-join" required>
+    </div>
+    <div class="input-group">
+      <label for="password-join">비밀번호</label><input type="password" name="password" id="password-join" required>
+    </div>
+    <input type="submit" value="회원가입" class="btn">
+  </form>
+</div>
 {% endblock%}
 {% block script%}
 <script>
