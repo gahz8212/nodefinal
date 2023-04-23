@@ -54,6 +54,7 @@ router.post("/items", upload2.none(), async (req, res) => {
   console.log(use);
 
   console.log(imgArr);
-  return res.redirect("/");
+
+  return res.redirect("ok");
 });
 module.exports = router;

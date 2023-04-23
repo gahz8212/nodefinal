@@ -5,6 +5,19 @@ module.exports = class User extends Sequelize.Model {
       {
         email: { type: Sequelize.STRING(50), unique: true, allowNull: false },
         nick: { type: Sequelize.STRING(30), allowNull: false },
+        name: { type: Sequelize.STRING(10), allowNull: false },
+        title: {
+          type: Sequelize.ENUM(
+            "대표",
+            "부장",
+            "차장",
+            "팀장",
+            "과장",
+            "대리",
+            "사원"
+          ),
+          allowNull: false,
+        },
         password: { type: Sequelize.STRING(200), allowNull: false },
         createdAt: {
           type: "TIMESTAMP",
@@ -20,9 +33,14 @@ module.exports = class User extends Sequelize.Model {
         timestamps: false,
         underscored: false,
         paranoid: false,
+        modelName: "User",
+        tableName: "users",
         charset: "utf8",
         collate: "utf8_general_ci",
       }
     );
+  }
+  static associate(db) {
+    db.User.hasMany(db.Item);
   }
 };

@@ -7,13 +7,15 @@ router.post("/join", async (req, res, next) => {
   const email = req.body.email;
   const nick = req.body.nick;
   const password = req.body.password;
+  const name = req.body.name;
+  const title = req.body.title;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
       return res.redirect("/join/?joinError=conflict");
     } else {
       const hash = await bcrypt.hash(password, 12);
-      await User.create({ email, nick, password: hash });
+      await User.create({ email, nick, name, title, password: hash });
       return res.redirect("/");
     }
   } catch (e) {
