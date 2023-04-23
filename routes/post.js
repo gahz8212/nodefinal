@@ -36,4 +36,24 @@ router.post("/image", upload.array("images"), (req, res, next) => {
     return next(e);
   }
 });
+router.post("/items", upload2.none(), async (req, res) => {
+  const itemcate = req.body.itemcate;
+  const employee = req.body.employee;
+  const itemname = req.body.itemname;
+  const depart = req.body.departs;
+  const itemdescription = req.body.itemdescription;
+  const use = req.body.use;
+  const hiddenimages = req.body.hiddenimages;
+  const imgArr = hiddenimages.split(",");
+
+  console.log(itemcate);
+  console.log(employee);
+  console.log(itemname);
+  console.log(itemdescription);
+  console.log(depart);
+  console.log(use);
+
+  console.log(imgArr);
+  return res.redirect("/");
+});
 module.exports = router;
