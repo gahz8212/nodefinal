@@ -3,9 +3,12 @@ module.exports = class Item extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        name: { type: Sequelize.STRING(30), allowNull: false },
-        description: { type: Sequelize.STRING(200), allowNull: false },
-        departs: {
+        itemcate: { type: Sequelize.STRING(30), allowNull: false },
+        employee: { type: Sequelize.STRING(10), allowNull: false },
+        itemname: { type: Sequelize.STRING(30), allowNull: false },
+        itemdescription: { type: Sequelize.STRING(200), allowNull: false },
+        use: { type: Sequelize.BOOLEAN, defaultValue: true },
+        depart: {
           type: Sequelize.ENUM("office", "develop", "manufact", "package"),
         },
 

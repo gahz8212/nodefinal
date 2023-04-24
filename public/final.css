@@ -25,6 +25,27 @@
   color: white;
   transition: 0.5s;
 }
+.mini-btn {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 12px;
+  padding: 5px 2px;
+  background-color: white;
+  border: 1px solid silver;
+  border-radius: 4px;
+  color: black;
+  vertical-align: top;
+  cursor: pointer;
+  margin-left: 7px;
+}
+.mini-btn:first-child:hover {
+  background-color: aquamarine;
+  transition: 0.5s;
+}
+.mini-btn:last-child:hover {
+  background-color: cornflowerblue;
+  transition: 0.5s;
+}
 
 input[type="text"],
 input[type="email"],
@@ -152,7 +173,7 @@ textarea {
   resize: none;
   width: 100%;
   height: 72px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding: 5px;
   line-height: 1.2;
 }
@@ -164,9 +185,41 @@ textarea {
   margin-left: 10px;
   padding: 10px;
 }
-.timeline #join-form {
-  text-align: right;
-  background-color: lightyellow;
+.fullscreen {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#join-form {
+  background-color: beige;
+  padding: 20px;
+  border-radius: 8px;
+  width: 350px;
+  /* text-align: right; */
+}
+#join-form label {
+  display: inline-block;
+  width: 25%;
+  color: red;
+  height: 32px;
+  line-height: 32px;
+}
+
+#join-form .input-group.name-title {
+  display: flex;
+  /* align-items: center; */
+}
+#join-form .input-group input {
+  width: 210px;
+}
+#join-form .input-group.name-title input {
+  width: 120px;
 }
 @media screen and (min-width: 800px) {
   .timeline {
@@ -212,5 +265,5 @@ textarea {
 }
 .list-window .list-item .images img {
   display: inline-block;
-  max-width: 120px;
+  max-width: 130px;
 }

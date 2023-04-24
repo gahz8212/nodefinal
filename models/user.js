@@ -4,7 +4,6 @@ module.exports = class User extends Sequelize.Model {
     return super.init(
       {
         email: { type: Sequelize.STRING(50), unique: true, allowNull: false },
-        nick: { type: Sequelize.STRING(30), allowNull: false },
         name: { type: Sequelize.STRING(10), allowNull: false },
         title: {
           type: Sequelize.ENUM(

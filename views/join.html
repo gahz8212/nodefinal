@@ -1,25 +1,30 @@
-{% extends 'layout.html'%} {% block content%}
-<div class="timeline">
+{% extends 'layout.html'%} {% block join%}
+<div class="fullscreen">
   <form action="/auth/join" method="post" id="join-form">
-    <div class="input-group">
-      <label for="nick-join">닉네임</label
-      ><input type="text" name="nick" id="nick-join" required autofocus />
+    <!-- <div class="input-group">
+      <label for="nick-join">닉네임</label><input type="text" name="nick" id="nick-join" required autofocus />
+    </div> -->
+    <div class="input-group name-title">
+      <label for="nick-name">이름</label><input type="text" name="name" id="nick-name" required />
+      <!-- </div>
+    <div class="input-group"> -->
+      <!-- <label for="nick-title">직급</label> -->
+      <select name="title">
+        <option value="">직급선택</option>
+        <option value="대표">대표</option>
+        <option value="부장">부장</option>
+        <option value="차장">차장</option>
+        <option value="팀장">팀장</option>
+        <option value="과장">과장</option>
+        <option value="대리">대리</option>
+        <option value="사원">사원</option>
+      </select>
     </div>
     <div class="input-group">
-      <label for="nick-name">이름</label
-      ><input type="text" name="name" id="nick-name" required />
+      <label for="email-join">이메일</label><input type="email" name="email" id="email-join" required />
     </div>
     <div class="input-group">
-      <label for="nick-title">직급</label
-      ><input type="text" name="title" id="nick-title" required />
-    </div>
-    <div class="input-group">
-      <label for="email-join">이메일</label
-      ><input type="email" name="email" id="email-join" required />
-    </div>
-    <div class="input-group">
-      <label for="password-join">비밀번호</label
-      ><input type="password" name="password" id="password-join" required />
+      <label for="password-join">비밀번호</label><input type="password" name="password" id="password-join" required />
     </div>
     <input type="submit" value="회원가입" class="btn" />
   </form>

@@ -3,6 +3,8 @@ const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const { Item, Image } = require("../models");
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 try {
   fs.readdirSync("uploads");
 } catch (e) {
@@ -46,15 +48,57 @@ router.post("/items", upload2.none(), async (req, res) => {
   const hiddenimages = req.body.hiddenimages;
   const imgArr = hiddenimages.split(",");
 
-  console.log(itemcate);
-  console.log(employee);
-  console.log(itemname);
-  console.log(itemdescription);
-  console.log(depart);
-  console.log(use);
+  // console.log(itemcate);
+  // console.log(employee);
+  // console.log(itemname);
+  // console.log(itemdescription);
+  // console.log(depart);
+  // console.log(use);
+  // console.log(req.user.name);
+  // console.log(imgArr);
+  // console.log(Array.isArray(depart));
+  if (Array.isArray(depart)) {
+    depart.map(async (part) => {
+      const item = await Item.create({
+        itemcate,
+        employee: employee || req.user.name,
+        itemname,
+        depart: part,
+        itemdescription,
+        use,
+        UserId: req.user.id,
+      });
 
-  console.log(imgArr);
+      imgArr.map(async (img) => {
+        await Image.create({
+          image: img,
+          ItemId: item.id,
+        });
+      });
+    });
+    return res.redirect("/");
+  }
+  const item = await Item.create({
+    itemcate,
+    employee: employee || req.user.name,
+    itemname,
+    depart,
+    itemdescription,
+    use,
+    UserId: req.user.id,
+  });
+  imgArr.map(async (img) => {
+    await Image.create({
+      image: img,
+      ItemId: item.id,
+    });
+  });
+  return res.redirect("/");
+});
 
-  return res.redirect("ok");
+router.post("/:id/delete", isLoggedIn, async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  await Item.destroy({ where: { id } });
+  return res.send("ok");
 });
 module.exports = router;

@@ -6,6 +6,7 @@ const db = {};
 const User = require("./user");
 const Item = require("./item");
 const Image = require("./images");
+
 const sequelize = new Sequelize(
   config.database,
   config.username,
