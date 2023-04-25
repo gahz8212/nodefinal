@@ -1,79 +1,150 @@
-{% extends 'layout.html'%}
-{% block content%}
+{% extends 'layout.html'%} {% block content%}
 <div class="timeline">
-
   <div class="select-group">
     <form action="/departs" method="get" class="selections" id="selection-form">
       <div class="select-group">
-        <label for="office">모두 선택</label><input type="checkbox" name="all" id="all-select" value="all"
-          onclick="selectAll(this)">
+        <label for="office">모두 선택</label
+        ><input
+          type="checkbox"
+          name="all"
+          id="all-select"
+          value="all"
+          onclick="selectAll(this)"
+        />
       </div>
       <div class="select-group">
-        <label for="office">사무실</label><input type="checkbox" name="departs" id="office" value="office"
-          onclick="checkSelectAll()">
+        <label for="office">사무실</label
+        ><input
+          type="checkbox"
+          name="departs"
+          id="office"
+          value="office"
+          onclick="checkSelectAll()"
+        />
       </div>
       <div class="select-group">
-        <label for="develop">개발실</label><input type="checkbox" name="departs" id="develop" value="develop"
-          onclick="checkSelectAll()">
+        <label for="develop">개발실</label
+        ><input
+          type="checkbox"
+          name="departs"
+          id="develop"
+          value="develop"
+          onclick="checkSelectAll()"
+        />
       </div>
       <div class="select-group">
-        <label for="manufact">생산실</label><input type="checkbox" name="departs" id="manufact" value="manufact"
-          onclick="checkSelectAll()">
+        <label for="manufact">생산실</label
+        ><input
+          type="checkbox"
+          name="departs"
+          id="manufact"
+          value="manufact"
+          onclick="checkSelectAll()"
+        />
       </div>
       <div class="select-group">
-        <label for="package">포장실</label><input type="checkbox" name="departs" id="package" value="package"
-          onclick="checkSelectAll()">
+        <label for="package">포장실</label
+        ><input
+          type="checkbox"
+          name="departs"
+          id="package"
+          value="package"
+          onclick="checkSelectAll()"
+        />
       </div>
-      <input type="submit" value="선택">
+      <input type="submit" value="선택" />
     </form>
   </div>
 
   <form action="/search" method="get" id="search-form">
-    <input type="text" name="item" id="search" placeholder="검색어를 입력 하세요">
-    <input type="submit" value="검색" class="btn">
+    <input
+      type="text"
+      name="item"
+      id="search"
+      placeholder="검색어를 입력 하세요"
+    />
+    <input type="submit" value="검색" class="btn" />
   </form>
-
-
-
 
   <div class="list-window">
     {% for content in contents%}
     <div class="list-item">
-      <input type="hidden" name="" id="content-id" value="{{content.id}}">
+      <input type="hidden" name="" id="content-id" value="{{content.id}}" />
       <div class="itemname">
-        <input type="text" name="" id="" value="{{content.itemname}}" readonly>
+        <input
+          type="text"
+          name="itemname"
+          id="itemname"
+          value="{{content.itemname}}"
+          readonly
+        />
       </div>
-      <textarea name="description" id="description" maxlength="140" placeholder="제품 설명이 입력됩니다."
-        readonly>{{content.itemdescription}}</textarea>
-      <input type="text" name="" id="" value="{{content.depart}}">
-      <label for="office">사무실</label><input type="radio" name="{{content.id}}" id="office"
-        checked="{{ true if content.depart==='office' else false}}">
-      <label for="develop">개발실</label><input type="radio" name="{{content.id}}" id="develop"
-        checked="{{ true if content.depart==='develop' else false}}">
-      <label for="manufact">생산실</label><input type="radio" name="{{content.id}}" id="manufact"
-        checked="{{ true if content.depart==='manufact' else false}}">
-      <label for="package">포장실</label><input type="radio" name="{{content.id}}" id="package"
-        checked="{{true if content.depart==='package' else false}}">
+      <textarea
+        name="description"
+        id="description"
+        maxlength="140"
+        placeholder="제품 설명이 입력됩니다."
+        readonly
+      >
+{{content.itemdescription}}</textarea
+      >
+      <input type="text" name="" id="depart" value="{{content.depart}}" />
+
+      <label for="office">사무실</label
+      ><input
+        type="radio"
+        name="{{content.itemname}}"
+        id="office"
+        value="office"
+      />
+      <label for="develop">개발실</label
+      ><input
+        type="radio"
+        name="{{content.itemname}}"
+        id="develop"
+        value="develop"
+      />
+      <label for="manufact">생산실</label
+      ><input
+        type="radio"
+        name="{{content.itemname}}"
+        id="manufact"
+        value="manufact"
+      />
+      <label for="package">포장실</label
+      ><input
+        type="radio"
+        name="{{content.itemname}}"
+        id="package"
+        value="package"
+      />
+      <script>
+        // const item = document.getElementById("itemname").value;
+        // const depart = document.getElementById("depart").value;
+        document.querySelectorAll('input[type = "radio"]').forEach((tag) => {
+          const item = tag.parentNode.querySelector("#depart").value;
+          if (item === tag.value) {
+            tag.setAttribute("checked", "checked");
+          }
+        });
+      </script>
       <!-- <input type="text" name="" id="" value="{{content.depart}}">
-      <label for="office">사무실</label><input type="radio" name="{{content.id}}" id="office" checked="checked">
-      <label for="develop">개발실</label><input type="radio" name="{{content.id}}" id="develop">
-      <label for="manufact">생산실</label><input type="radio" name="{{content.id}}" id="manufact">
-      <label for="package">포장실</label><input type="radio" name="{{content.id}}" id="package"> -->
+      <label for="office">사무실</label><input type="radio" name="{{content.itemname}}" id="office" checked="checked">
+      <label for="develop">개발실</label><input type="radio" name="{{content.itemname}}" id="develop">
+      <label for="manufact">생산실</label><input type="radio" name="{{content.itemname}}" id="manufact">
+      <label for="package">포장실</label><input type="radio" name="{{content.itemname}}" id="package"> -->
 
       <div class="buttons">
         <button class="mini-btn" id="update-btn">수정</button>
         <button class="mini-btn" id="remove-btn">삭제</button>
       </div>
       <div class="images">
-        {% if content.Images%}
-        {% for img in content.Images%}
-        <img src="{{img.image}}" alt="a">
-        {% endfor%}
-        {% endif%}
+        {% if content.Images%} {% for img in content.Images%}
+        <img src="{{img.image}}" alt="a" />
+        {% endfor%} {% endif%}
       </div>
     </div>
     {% endfor%}
-
   </div>
 </div>
 
@@ -83,41 +154,43 @@
     axios.get(`/departs/?departs=${e.target.office.value}`)
   })</script> -->
 
-
-
-
-
-
 <script>
-  document.querySelectorAll(' #remove-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (confirm('정말로 이 아이템을 삭제 하시겠습니까?')) {
-
-        const contentId = btn.parentNode.parentNode.querySelector('#content-id').value;
-        axios.post(`/post/${contentId}/delete`).then(() => { location.reload() }).catch(e => { console.error(e) })
+  document.querySelectorAll(" #remove-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (confirm("정말로 이 아이템을 삭제 하시겠습니까?")) {
+        const contentId =
+          btn.parentNode.parentNode.querySelector("#content-id").value;
+        axios
+          .post(`/post/${contentId}/delete`)
+          .then(() => {
+            location.reload();
+          })
+          .catch((e) => {
+            console.error(e);
+          });
       }
-    })
+    });
   });
   function checkSelectAll() {
     const checkboxes = document.querySelectorAll('input[name="departs"]');
-    const checkedbox = document.querySelectorAll('input[name="departs"]:checked');
+    const checkedbox = document.querySelectorAll(
+      'input[name="departs"]:checked'
+    );
 
-    const selectAll = document.querySelector('input[name="all"]')
+    const selectAll = document.querySelector('input[name="all"]');
     if (checkboxes.length === checkedbox.length) {
       selectAll.checked = true;
     } else {
-      selectAll.checked = false
+      selectAll.checked = false;
     }
   }
 
-
   function selectAll(selectAll) {
-    const checkboxes
-      = document.getElementsByName('departs');
+    const checkboxes = document.getElementsByName("departs");
 
     checkboxes.forEach((checkbox) => {
-      checkbox.checked = selectAll.checked
-    })
+      checkbox.checked = selectAll.checked;
+    });
   }
 </script>
 <script>
