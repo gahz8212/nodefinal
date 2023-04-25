@@ -96,9 +96,14 @@ router.post("/items", upload2.none(), async (req, res) => {
   return res.redirect("/");
 });
 
-router.post("/:id/delete", isLoggedIn, async (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  await Item.destroy({ where: { id } });
-  return res.send("ok");
+router.post("/:id/delete", isLoggedIn, async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    await Item.destroy({ where: { id } });
+    return res.send("ok");
+  } catch (e) {
+    console.error(e);
+    return next(e);
+  }
 });
 module.exports = router;

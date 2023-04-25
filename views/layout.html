@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/final.css" />
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <title>Document</title>
+  <title>{{title}}</title>
 </head>
 
 <body>
@@ -104,7 +104,7 @@
     if (new URL(location.href).searchParams.get("loginError")) {
       alert(new URL(location.href).searchParams.get("loginError"));
     }
-    return res.redirect('/')
+
   };
 </script>
 <script>

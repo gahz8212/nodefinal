@@ -3,7 +3,7 @@
 <div class="timeline">
 
   <div class="select-group">
-    <div class="selections">
+    <form action="/departs" method="get" class="selections" id="selection-form">
       <div class="select-group">
         <label for="office">모두 선택</label><input type="checkbox" name="all" id="all-select" value="all"
           onclick="selectAll(this)">
@@ -24,11 +24,12 @@
         <label for="package">포장실</label><input type="checkbox" name="departs" id="package" value="package"
           onclick="checkSelectAll()">
       </div>
-    </div>
+      <input type="submit" value="선택">
+    </form>
   </div>
 
   <form action="/search" method="get" id="search-form">
-    <input type="text" name="search" id="search" placeholder="검색어를 입력 하세요">
+    <input type="text" name="item" id="search" placeholder="검색어를 입력 하세요">
     <input type="submit" value="검색" class="btn">
   </form>
 
@@ -39,11 +40,27 @@
     {% for content in contents%}
     <div class="list-item">
       <input type="hidden" name="" id="content-id" value="{{content.id}}">
-      <div class="itemname">{{content.itemname}}</div>
+      <div class="itemname">
+        <input type="text" name="" id="" value="{{content.itemname}}" readonly>
+      </div>
       <textarea name="description" id="description" maxlength="140" placeholder="제품 설명이 입력됩니다."
         readonly>{{content.itemdescription}}</textarea>
-      <div class="buttons">
+      <input type="text" name="" id="" value="{{content.depart}}">
+      <label for="office">사무실</label><input type="radio" name="{{content.id}}" id="office"
+        checked="{{ true if content.depart==='office' else false}}">
+      <label for="develop">개발실</label><input type="radio" name="{{content.id}}" id="develop"
+        checked="{{ true if content.depart==='develop' else false}}">
+      <label for="manufact">생산실</label><input type="radio" name="{{content.id}}" id="manufact"
+        checked="{{ true if content.depart==='manufact' else false}}">
+      <label for="package">포장실</label><input type="radio" name="{{content.id}}" id="package"
+        checked="{{true if content.depart==='package' else false}}">
+      <!-- <input type="text" name="" id="" value="{{content.depart}}">
+      <label for="office">사무실</label><input type="radio" name="{{content.id}}" id="office" checked="checked">
+      <label for="develop">개발실</label><input type="radio" name="{{content.id}}" id="develop">
+      <label for="manufact">생산실</label><input type="radio" name="{{content.id}}" id="manufact">
+      <label for="package">포장실</label><input type="radio" name="{{content.id}}" id="package"> -->
 
+      <div class="buttons">
         <button class="mini-btn" id="update-btn">수정</button>
         <button class="mini-btn" id="remove-btn">삭제</button>
       </div>
@@ -59,8 +76,18 @@
 
   </div>
 </div>
-{% endblock%}
-{% block script%}
+
+<!-- <script>document.getElementById('selection-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const item = 'develop'
+    axios.get(`/departs/?departs=${e.target.office.value}`)
+  })</script> -->
+
+
+
+
+
+
 <script>
   document.querySelectorAll(' #remove-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -73,15 +100,17 @@
   });
   function checkSelectAll() {
     const checkboxes = document.querySelectorAll('input[name="departs"]');
-    const checked = document.querySelectorAll('input[name="departs"]:checked');
+    const checkedbox = document.querySelectorAll('input[name="departs"]:checked');
 
     const selectAll = document.querySelector('input[name="all"]')
-    if (checkboxes.length === checked.length) {
+    if (checkboxes.length === checkedbox.length) {
       selectAll.checked = true;
     } else {
       selectAll.checked = false
     }
   }
+
+
   function selectAll(selectAll) {
     const checkboxes
       = document.getElementsByName('departs');
@@ -92,10 +121,25 @@
   }
 </script>
 <script>
-  window.onload = () => {
-    if (new URL(location.href).searchParams.get("loginError")) {
-      alert(new URL(location.href).searchParams.get("loginError"));
-    }
-  };
+  let boxArr = [];
+  // document.querySelectorAll('input[name="departs"]').forEach(box => box.addEventListener('change', async () => {
+
+  //   document.getElementById('selection-form').onsubmit
+
+  // }))
+  // document.querySelectorAll('input[name="departs"]').forEach(box => box.addEventListener('change', async () => {
+
+  //   if (box.checked) {
+  //     if (boxArr.indexOf(box.value) < 0) {
+  //       boxArr.push(box.value)
+  //     }
+  //   } else {
+  //     const idx = boxArr.indexOf(box.value)
+  //     // console.log(idx)
+  //     boxArr.splice(idx, 1)
+  //   }
+  //   console.log(boxArr)
+  //   await axios.get(`/departs/?depart=${boxArr}`)
+  // }));
 </script>
 {% endblock%}
