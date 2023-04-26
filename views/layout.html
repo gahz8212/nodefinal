@@ -95,6 +95,7 @@
         </div>
       </form>
       {% endif%}
+
     </div>
     {% block content%} {% endblock%}
   </div>
@@ -106,6 +107,19 @@
     }
 
   };
+
+</script>
+<script>
+  const radios = document.querySelector('.list-window').querySelectorAll('input[type="radio"]')
+  // console.log(radios)
+  // console.log(Array.isArray(radios))
+  radios.forEach((tag) => {
+    const item = tag.parentNode.querySelector('input[name="depart"]').value;
+    // console.log(item, tag.value)
+    if (item === tag.value) {
+      tag.setAttribute("checked", "checked");
+    }
+  });
 </script>
 <script>
   if (document.getElementById("file")) {

@@ -7,6 +7,7 @@ router.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
+
 router.get("/", async (req, res, next) => {
   try {
     const contents = await Item.findAll({
@@ -46,6 +47,7 @@ router.get("/departs", async (req, res, next) => {
 router.get("/search", async (req, res) => {
   try {
     const search = req.query.item;
+    console.log(decodeURIComponent(search));
     if (search) {
       const contents = await Item.findAll({
         where: { itemname: { [Op.like]: `%${search}%` } },
