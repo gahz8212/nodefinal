@@ -10,9 +10,16 @@ module.exports = () => {
         try {
           const exUser = await User.findOne({ where: { email } });
           if (exUser) {
-            const hash = await bcrypt.compare(password, exUser.password);
-            if (hash) {
-              done(null, exUser);
+            const result = await bcrypt.compare(password, exUser.password);
+            if (result) {
+              const status = exUser.status;
+              if (status) {
+                done(null, false, {
+                  message: "이미 다른 PC에서 로그인 중 입니다.",
+                });
+              } else {
+                done(null, exUser);
+              }
             } else {
               done(null, false, { message: "비밀번호 오류 입니다." });
             }

@@ -1,7 +1,7 @@
 {% extends 'layout.html'%} {% block content%}
 <div class="timeline">
   <div class="select-group">
-    <form action="/departs" method="get" class="selections" id="selection-form">
+    <form class="selections" id="selection-form">
       <div class="select-group">
         <label for="office">모두 선택</label><input type="checkbox" name="all" id="all-select" value="all"
           onclick="selectAll(this)" />
@@ -125,19 +125,19 @@
   //   document.getElementById('selection-form').onsubmit
 
   // }))
-  // document.querySelectorAll('input[name="departs"]').forEach(box => box.addEventListener('change', async () => {
+  document.querySelectorAll('input[name="departs"]').forEach(box => box.addEventListener('change', async () => {
 
-  //   if (box.checked) {
-  //     if (boxArr.indexOf(box.value) < 0) {
-  //       boxArr.push(box.value)
-  //     }
-  //   } else {
-  //     const idx = boxArr.indexOf(box.value)
-  //     // console.log(idx)
-  //     boxArr.splice(idx, 1)
-  //   }
-  //   console.log(boxArr)
-  //   await axios.get(`/departs/?depart=${boxArr}`)
-  // }));
+    if (box.checked) {
+      if (boxArr.indexOf(box.value) < 0) {
+        boxArr.push(box.value)
+      }
+    } else {
+      const idx = boxArr.indexOf(box.value)
+      // console.log(idx)
+      boxArr.splice(idx, 1)
+    }
+    console.log(boxArr)
+    await axios.get(`/departs/?depart=${boxArr}`).then(res => { console.log(res.data) })
+  }));
 </script>
 {% endblock%}

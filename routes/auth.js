@@ -23,7 +23,7 @@ router.post("/join", async (req, res, next) => {
     return next(e);
   }
 });
-router.post("/login", async (req, res, next) => {
+router.post("/login", (req, res, next) => {
   passport.authenticate("local", (authError, user, info) => {
     if (authError) {
       console.log(authError);
@@ -32,16 +32,20 @@ router.post("/login", async (req, res, next) => {
     if (!user) {
       return res.redirect(`/?loginError=${info.message}`);
     }
-    return req.login(user, (loginError) => {
+    return req.login(user, async (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
+      await User.update({ status: true }, { where: { id: user.id } });
+      req.app.get("io").emit("login", { name: user.name });
       return res.redirect("/");
     });
   })(req, res, next);
 });
 router.get("/logout", async (req, res, next) => {
+  await User.update({ status: false }, { where: { id: req.user.id } });
+  req.app.get("io").emit("logout", { name: req.user.name });
   return req.logout((e) => {
     if (e) {
       return res.redirect("/");

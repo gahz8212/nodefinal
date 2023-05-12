@@ -14,7 +14,9 @@ router.get("/", async (req, res, next) => {
       include: [{ model: Image }],
       order: [["id", "desc"]],
     });
-    return res.render("main", { title: "ITEMs", contents });
+    const users = await User.findAll({ where: { status: true } });
+    // console.log(users);
+    return res.render("main", { title: "ITEMs", contents, users });
   } catch (e) {
     console.error(e);
     return next(e);
@@ -38,7 +40,8 @@ router.get("/departs", async (req, res, next) => {
       order: [["id", "desc"]],
     });
     // console.log(contents);
-    return res.render("main", { title: "difficult", contents });
+    // return res.render("main", { title: "difficult", contents });
+    return res.json({ contents });
   } catch (e) {
     console.error(e);
     next(e);

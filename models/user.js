@@ -18,6 +18,11 @@ module.exports = class User extends Sequelize.Model {
           allowNull: false,
         },
         password: { type: Sequelize.STRING(200), allowNull: false },
+        status: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
         createdAt: {
           type: "TIMESTAMP",
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

@@ -19,9 +19,19 @@
       {% if user and user.id %}
       <div class="login">
         <div class="username">안녕하세요 {{user.name}}님!</div>
+        <span id="counter"></span>
+        <span>이후에 로그아웃 됩니다.</span><input type="button" value="연장" onclick="counter_reset()" class="btn">
+
         <div class="buttons">
           <a href="/auth/logout" class="btn">로그아웃</a>
         </div>
+
+        <div class="users">현재 접속중인 멤버</div>
+        {% for user in users%}
+        <div>{{user.name}}</div>
+        {% endfor%}
+        <div id="userList"></div>
+
       </div>
 
       <div class="inputitem">
@@ -153,6 +163,54 @@
           console.error(e);
         });
     });
+  }
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io.connect('http://localhost:3000', { path: '/socket.io' })
+  socket.on('login', (data) => {
+    const list = document.querySelector('#userList')
+    const div = document.createElement('div')
+    div.classList.add(data.name)
+    div.textContent = data.name;
+    list.appendChild(div)
+  })
+  socket.on('logout', (data) => {
+    const list = document.querySelector('#userList')
+    const div = document.querySelector(`.${data.name}`)
+    if (div.parentNode) {
+      div.parentNode.removeChild(div)
+    }
+
+  })
+</script>
+<script>
+  if (document.querySelector('.username')) {
+    let cnt = parseInt(300 * 2)
+    let pid;
+    function counter_init() {
+      pic = setInterval("counter_run()", 1000)
+    }
+    function counter_reset() {
+      clearInterval(pid);
+      cnt = parseInt(600);
+      counter_init();
+    }
+    function counter_run() {
+      document.querySelector('#counter').innerText = form(cnt)
+      cnt--;
+      if (cnt < 0) {
+        clearInterval(pid)
+        location.href = '/auth/logout'
+      }
+    }
+    function form(s) {
+      const seconds = ('0' + Math.floor((s) % 60)).slice(-2)
+      const minutes = ('0' + Math.floor((s / 60) % 60)).slice(-2)
+      const hours = ('0' + Math.floor((s / 60 / 60) % 24)).slice(-2)
+      return hours + ":" + minutes + ":" + seconds
+    }
+    counter_init();
   }
 </script>
 {% block script%} {% endblock%}
