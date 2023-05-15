@@ -31,10 +31,18 @@ module.exports = class User extends Sequelize.Model {
           type: "TIMESTAMP",
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
+        loginAt: {
+          type: "TIMESTAMP",
+          // defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        },
+        logoutAt: {
+          type: "TIMESTAMP",
+          // defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        },
       },
       {
         sequelize,
-        timestamps: false,
+        timestamps: true,
         underscored: false,
         paranoid: false,
         modelName: "User",

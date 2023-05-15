@@ -4,40 +4,34 @@
     <form class="selections" id="selection-form">
       <div class="select-group">
         <label for="office">모두 선택</label><input type="checkbox" name="all" id="all-select" value="all"
-          onclick="selectAll(this)" />
+          onclick="selectAll(this)" checked />
       </div>
       <div class="select-group">
         <label for="office">사무실</label><input type="checkbox" name="departs" id="office" value="office"
-          onclick="checkSelectAll()" />
+          onclick="checkSelectAll()" checked />
       </div>
       <div class="select-group">
         <label for="develop">개발실</label><input type="checkbox" name="departs" id="develop" value="develop"
-          onclick="checkSelectAll()" />
+          onclick="checkSelectAll()" checked />
       </div>
       <div class="select-group">
         <label for="manufact">생산실</label><input type="checkbox" name="departs" id="manufact" value="manufact"
-          onclick="checkSelectAll()" />
+          onclick="checkSelectAll()" checked />
       </div>
       <div class="select-group">
         <label for="package">포장실</label><input type="checkbox" name="departs" id="package" value="package"
-          onclick="checkSelectAll()" />
+          onclick="checkSelectAll()" checked />
       </div>
-      <input type="submit" value="선택" />
+      <!-- <input type="submit" value="선택" /> -->
     </form>
   </div>
 
-  <form action='/search' method='get' id="search-form">
+  <form id="search-form">
     <input type="text" name="item" id="search" placeholder="검색어를 입력 하세요" />
     <input type="submit" value="검색" class="btn" />
   </form>
 
-  <!-- <script>
-    document.getElementById('search-form').addEventListener('submit', (e) => {
-      e.preventDefault()
-      const item = encodeURIComponent(e.target.item.value)
-      axios.get(`/search/${item}`).then(() => { console.log('success') })
-    })
-  </script> -->
+
 
   <div class="list-window">
     {% for content in contents%}
@@ -110,23 +104,27 @@
     }
   }
 
+  let boxArr = ['office', 'develop', 'manufact', 'package'];
+
   function selectAll(selectAll) {
     const checkboxes = document.getElementsByName("departs");
 
     checkboxes.forEach((checkbox) => {
-      checkbox.checked = selectAll.checked;
+      if (selectAll.checked) {
+        checkbox.checked = selectAll.checked;
+        boxArr = ['office', 'develop', 'manufact', 'package'];
+
+      } else {
+        checkbox.checked = false;
+        boxArr = []
+      }
+      drawData(boxArr)
+
+
     });
   }
-</script>
-<script>
-  let boxArr = [];
-  // document.querySelectorAll('input[name="departs"]').forEach(box => box.addEventListener('change', async () => {
 
-  //   document.getElementById('selection-form').onsubmit
-
-  // }))
   document.querySelectorAll('input[name="departs"]').forEach(box => box.addEventListener('change', async () => {
-
     if (box.checked) {
       if (boxArr.indexOf(box.value) < 0) {
         boxArr.push(box.value)
@@ -136,8 +134,144 @@
       // console.log(idx)
       boxArr.splice(idx, 1)
     }
-    console.log(boxArr)
-    await axios.get(`/departs/?depart=${boxArr}`).then(res => { console.log(res.data) })
+    drawData(boxArr)
   }));
+
+
+  document.getElementById('search-form').addEventListener('submit', (e) => {
+    e.preventDefault()
+    const item = encodeURIComponent(e.target.item.value)
+    axios.get(`/search/${item}&${boxArr}`).then((res) => { draw(res.data) })
+  })
+
+
+
+  function drawData(boxArr) {
+    axios.get(`/departs/?depart=${boxArr}`).then(res => {
+      draw(res.data.contents)
+      // console.log(res.data);
+    }).catch(e => { console.error(e) })
+  }
+  async function draw(data) {
+    const contents = data
+    const tree = document.querySelector('.list-window')
+    tree.innerHTML = ''
+    contents.forEach(content => {
+
+      const listItem = document.createElement('div')
+      listItem.classList.add('list-item')
+
+      let input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('id', 'content-id')
+      input.value = content.id
+      listItem.appendChild(input)
+
+      let div = document.createElement('div')
+      div.classList.add('itemname')
+      input = document.createElement('input')
+      input.setAttribute('type', 'text')
+      input.setAttribute('id', `${content.id}-${content.itemname}`)
+      input.setAttribute('readonly', true)
+      input.value = content.itemname
+      div.appendChild(input)
+      listItem.appendChild(div)
+
+      const textarea = document.createElement('textarea')
+      textarea.setAttribute('id', 'description')
+      textarea.setAttribute('name', 'description')
+      textarea.setAttribute('maxlength', 140)
+      textarea.setAttribute('placeholder', "제품설명이 입력됩니다.")
+      textarea.setAttribute('readonly', true)
+      listItem.appendChild(textarea)
+
+      input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', 'depart')
+      input.setAttribute('id', 'departs')
+      input.value = content.depart
+      listItem.appendChild(input)
+
+      let label = document.createElement('label')
+      label.setAttribute('for', `${content.id}-office`)
+      label.textContent = '사무실'
+      listItem.appendChild(label)
+      input = document.createElement('input')
+      input.setAttribute('type', 'radio')
+      input.setAttribute('name', `${content.itemname}`)
+      input.setAttribute('id', `${content.id}-office`)
+      input.value = 'office'
+      input.checked = input.value === content.depart
+      listItem.appendChild(input)
+
+
+      label = document.createElement('label')
+      label.setAttribute('for', `${content.id}-develop`)
+      label.textContent = '개발실'
+      listItem.appendChild(label)
+      input = document.createElement('input')
+      input.setAttribute('type', 'radio')
+      input.setAttribute('name', `${content.itemname}`)
+      input.setAttribute('id', `${content.id}-develop`)
+      input.value = 'develop'
+      input.checked = input.value === content.depart
+      listItem.appendChild(input)
+
+
+      label = document.createElement('label')
+      label.setAttribute('for', `${content.id}-manufact`)
+      label.textContent = '생산실'
+      listItem.appendChild(label)
+      input = document.createElement('input')
+      input.setAttribute('type', 'radio')
+      input.setAttribute('name', `${content.itemname}`)
+      input.setAttribute('id', `${content.id}-manufact`)
+      input.value = 'manufact'
+      input.checked = input.value === content.depart
+      listItem.appendChild(input)
+
+      label = document.createElement('label')
+      label.setAttribute('for', `${content.id}-package`)
+      label.textContent = '포장실'
+      listItem.appendChild(label)
+      input = document.createElement('input')
+      input.setAttribute('type', 'radio')
+      input.setAttribute('name', `${content.itemname}`)
+      input.setAttribute('id', `${content.id}-package`)
+      input.value = 'package'
+      input.checked = input.value === content.depart
+      listItem.appendChild(input)
+
+      div = document.createElement('div')
+      div.classList.add('buttons')
+
+      let button = document.createElement('button')
+      button.classList.add('mini-btn')
+      button.setAttribute('id', 'update-btn')
+      button.textContent = "수정"
+      div.appendChild(button)
+      listItem.appendChild(div)
+
+      button = document.createElement('button')
+      button.classList.add('mini-btn')
+      button.setAttribute('id', 'remove-btn')
+      button.textContent = "삭제"
+      div.appendChild(button)
+      listItem.appendChild(div)
+
+      div = document.createElement('div')
+      div.classList.add('images')
+      if (content.Images) {
+        content.Images.forEach(image => {
+          let img = document.createElement('img')
+          img.src = image.image
+          div.appendChild(img)
+        })
+      }
+      listItem.appendChild(div)
+      tree.appendChild(listItem)
+    })
+  }
+
 </script>
 {% endblock%}

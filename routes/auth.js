@@ -37,18 +37,24 @@ router.post("/login", (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      await User.update({ status: true }, { where: { id: user.id } });
+      await User.update(
+        { status: true, loginAt: new Date() },
+        { where: { id: user.id } }
+      );
       req.app.get("io").emit("login", { name: user.name });
       return res.redirect("/");
     });
   })(req, res, next);
 });
 router.get("/logout", async (req, res, next) => {
-  await User.update({ status: false }, { where: { id: req.user.id } });
+  await User.update(
+    { status: false, logoutAt: new Date() },
+    { where: { id: req.user.id } }
+  );
   req.app.get("io").emit("logout", { name: req.user.name });
   return req.logout((e) => {
     if (e) {
-      return res.redirect("/");
+      return next(e);
     } else {
       req.session.destroy();
       return res.redirect("/");

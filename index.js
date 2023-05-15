@@ -11,7 +11,10 @@ const indexRouter = require("./routes");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/post");
 const websocket = require("./websocket");
+const sse = require("./sse");
+const CheckLogin = require("./checkLogin");
 const app = express();
+CheckLogin();
 passportConfig();
 sequelize
   .sync({ foece: false })
@@ -59,3 +62,4 @@ const server = app.listen(app.get("port"), () => {
   console.log(`${app.get("port")}번 포트에서 서버 대기 중.`);
 });
 websocket(server, app);
+sse(server);

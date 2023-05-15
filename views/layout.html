@@ -19,8 +19,9 @@
       {% if user and user.id %}
       <div class="login">
         <div class="username">안녕하세요 {{user.name}}님!</div>
-        <span id="counter"></span>
-        <span>이후에 로그아웃 됩니다.</span><input type="button" value="연장" onclick="counter_reset()" class="btn">
+
+        <span id="counter" data-start="{{user.loginAt}}"></span>
+        <span>이후에 로그아웃 됩니다.</span><input type="button" value="연장" onclick="extendsTime()" class="btn">
 
         <div class="buttons">
           <a href="/auth/logout" class="btn">로그아웃</a>
@@ -184,34 +185,37 @@
 
   })
 </script>
+<script src="https://unpkg.com/event-source-polyfill/src/eventsource.min.js"></script>
 <script>
-  if (document.querySelector('.username')) {
-    let cnt = parseInt(300 * 2)
-    let pid;
-    function counter_init() {
-      pic = setInterval("counter_run()", 1000)
-    }
-    function counter_reset() {
-      clearInterval(pid);
-      cnt = parseInt(600);
-      counter_init();
-    }
-    function counter_run() {
-      document.querySelector('#counter').innerText = form(cnt)
-      cnt--;
-      if (cnt < 0) {
-        clearInterval(pid)
+  let time = parseInt(30, 10);
+  function extendsTime() {
+    time = time + 30
+  }
+
+  const counter = document.querySelector('#counter')
+  if (counter) {
+    // console.log(counter.dataset.start);
+    const es = new EventSource('/sse')
+    es.addEventListener('message', (e) => {
+      let end = new Date(counter.dataset.start)
+      end.setMinutes(end.getMinutes() + time)
+
+      const server = new Date(parseInt(e.data, 10))
+      if (server > end) {
         location.href = '/auth/logout'
       }
-    }
-    function form(s) {
-      const seconds = ('0' + Math.floor((s) % 60)).slice(-2)
-      const minutes = ('0' + Math.floor((s / 60) % 60)).slice(-2)
-      const hours = ('0' + Math.floor((s / 60 / 60) % 24)).slice(-2)
-      return hours + ":" + minutes + ":" + seconds
-    }
-    counter_init();
+      else {
+        const t = end - server
+        const seconds = ('0' + Math.floor((t / 1000) % 60)).slice(-2)
+        const minutes = ('0' + Math.floor((t / 1000 / 60) % 60)).slice(-2)
+        const hours = ('0' + Math.floor((t / 1000 / 60 / 60) % 24)).slice(-2)
+        counter.textContent = hours + ":" + minutes + ":" + seconds
+      }
+    })
+
+
   }
+
 </script>
 {% block script%} {% endblock%}
 

@@ -28,42 +28,48 @@ router.get("/join", (req, res) => {
 });
 
 router.get("/departs", async (req, res, next) => {
-  if (!Array.isArray(req.query.departs)) {
-    req.query.departs = [req.query.departs];
+  if (!Array.isArray(req.query.depart)) {
+    req.query.departs = [req.query.depart];
   }
   console.log("value:", req.query.departs);
-  // // const departs = req.query.depart.split(",");
+  const departs = req.query.depart.split(",");
   try {
     const contents = await Item.findAll({
-      where: { depart: { [Op.in]: req.query.departs } },
+      where: { depart: { [Op.in]: departs } },
       include: [{ model: Image }],
       order: [["id", "desc"]],
     });
-    // console.log(contents);
-    // return res.render("main", { title: "difficult", contents });
+
     return res.json({ contents });
   } catch (e) {
     console.error(e);
     next(e);
   }
 });
-router.get("/search", async (req, res) => {
+router.get("/search/:item", async (req, res) => {
   try {
-    const search = req.query.item;
+    const search = req.params.item;
     console.log(decodeURIComponent(search));
     if (search) {
+      const searchSplit = search.split("&");
+      console.log(searchSplit[0]);
+      const category = searchSplit[1].split(",");
+      console.log(category);
       const contents = await Item.findAll({
-        where: { itemname: { [Op.like]: `%${search}%` } },
+        where: {
+          itemname: { [Op.like]: `%${searchSplit[0]}%` },
+          depart: { [Op.in]: category },
+        },
         include: [{ model: Image }],
         order: [["id", "desc"]],
       });
-      return res.render("main", { title: "ITEMs", contents });
+      return res.json(contents);
     } else {
       const contents = await Item.findAll({
         include: [{ model: Image }],
         order: [["id", "desc"]],
       });
-      return res.render("main", { title: "ALL", contents });
+      return res.json(contents);
     }
   } catch (e) {
     console.error(e);
